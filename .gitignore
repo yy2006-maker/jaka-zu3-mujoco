@@ -1,0 +1,12 @@
+# Python and MuJoCo runtime files.
+__pycache__/
+*.py[cod]
+MUJOCO_LOG.TXT
+
+# Finder metadata should never be part of the asset bundle.
+.DS_Store
+
+# Training outputs (not part of the current simulation-only project).
+demo_data/
+ckpt/
+wandb/
