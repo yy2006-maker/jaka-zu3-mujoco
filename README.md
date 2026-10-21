@@ -7,8 +7,8 @@ This repository contains a self-contained MuJoCo scene for the six-joint JAKA Zu
 You need Git, Python 3.10, and `pip`. The required meshes and scene assets are already tracked in this repository, so cloning it does not require a second asset download.
 
 ```bash
-git clone https://github.com/YOUR-USER/YOUR-REPOSITORY.git
-cd YOUR-REPOSITORY
+git clone https://github.com/yy2006-maker/jaka-zu3-mujoco.git
+cd jaka-zu3-mujoco
 
 # Optional: create and activate a clean Conda environment.
 conda create -n jaka_mujoco python=3.10 -y
