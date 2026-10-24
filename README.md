@@ -25,6 +25,14 @@ To run the scripted rag-contact demonstration instead of the manual viewer, use:
 python scripts/demo_rag_contact.py
 ```
 
+The contact demo is intentionally observable: while the pad is free it is
+orange; when the `tool_contact_pad` sphere touches the deformable `rag` it
+turns red. The terminal also prints `pad-rag contacts=N` and the summed normal
+contact force in newtons. During the approach you should see `N` become a
+positive number (normally 6 or more) near `tool0` position `(0.25, -0.10,
+0.82)`. A contact is created by the collision geoms and MuJoCo's contact
+solver; moving two visual meshes close together is not sufficient.
+
 In the MuJoCo window, press **Tab** to show or hide the left panel and **Shift+Tab** to show or hide the right panel. Joint target controls are in the right panel under **Control**. Change targets gradually; the robot joints use radians.
 
 ## What is included
@@ -35,7 +43,7 @@ In the MuJoCo window, press **Tab** to show or hide the left panel and **Shift+T
 - `assets/tabletop/` and `assets/objaverse/`: the table, mug, and plate used by the scene.
 - `scripts/fetch_assets.sh`: optional recovery script for recreating the asset directory if a user intentionally removes it; a normal clone does not need to run it.
 
-The rag is a procedural MuJoCo `flexcomp` cloth patch (165 vertices), not a scanned or textured rag model. It falls onto the tabletop and can deform under contact. The base and Links 1–2 have collision proxies enabled; an orange sphere marks the active tool contact pad at `tool0`. Links 3–6 remain visual-only because their full STL collision hulls clip into this table in the tested rag-reaching pose. The base is excluded from table collision because it is mounted through the tabletop. The mug, plate, table, rag, base/shoulder, and tool pad can generate contacts.
+The rag is a procedural MuJoCo `flexcomp` cloth patch (165 vertices), not a scanned or textured rag model. It falls onto the tabletop and can deform under contact. The base and Links 1–2 have collision proxies enabled; an orange sphere marks the active tool contact pad at `tool0`. Links 3–6 remain visual-only because their full STL collision hulls clip into this table in the tested rag-reaching pose. The base is excluded from table collision because it is mounted through the tabletop. The mug, plate, table, rag, base/shoulder, and tool pad can generate contacts. The pad is a simplified collision proxy attached to Link 6; it represents the physical end tool while the detailed Link 6 STL remains visual-only.
 
 To test contact manually, run `python view_jaka_zu3.py`, use the right-panel actuator controls to move the joints slowly, and watch the orange tool pad approach the rag or rigid objects. Contact-point and contact-force visualization is enabled. For a repeatable approach, run `python scripts/demo_rag_contact.py`; it lets the rag settle, moves the pad toward the rag, holds briefly, and retracts. Collision response only handles physical contact; it does not plan a safe path. There is no gripper, grasp constraint, inverse-kinematics interface, or wiping controller yet, so this version is for scene and contact experiments rather than pick-and-place or policy training. The original tutorial notebooks demonstrate a different Robotis OMY robot and are not Zu 3 control code.
 
