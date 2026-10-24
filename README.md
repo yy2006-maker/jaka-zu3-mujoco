@@ -1,6 +1,6 @@
 # JAKA Zu 3 in MuJoCo
 
-This repository contains a self-contained MuJoCo scene for the six-joint JAKA Zu 3 and a viewer for testing joint-position control. The repository includes the seven-link JAKA visual geometry (`Link_0.STL` through `Link_6.STL`) together with the tabletop, mug, and plate used in the current scene.
+This repository contains a MuJoCo scene for the six-joint JAKA Zu 3, a tabletop, a deformable cloth patch, a mug, and a plate. It includes the seven-link JAKA geometry (`Link_0.STL` through `Link_6.STL`) and a viewer for testing joint-position control and basic contacts.
 
 ## Quick start (Ubuntu)
 
@@ -19,19 +19,25 @@ python scripts/check_model.py
 python view_jaka_zu3.py
 ```
 
-In the MuJoCo window, press **Tab** to show or hide the left panel and **Shift+Tab** to show or hide the right panel. Joint controls are in the right panel under **Control**.
+To run the scripted rag-contact demonstration instead of the manual viewer, use:
+
+```bash
+python scripts/demo_rag_contact.py
+```
+
+In the MuJoCo window, press **Tab** to show or hide the left panel and **Shift+Tab** to show or hide the right panel. Joint target controls are in the right panel under **Control**. Change targets gradually; the robot joints use radians.
 
 ## What is included
 
-- `jaka_zu3_mujoco.xml`: the six-joint robot definition, inertial properties, position actuators, and scene includes.
-- `view_jaka_zu3.py`: starts the model in a raised pose and opens the MuJoCo viewer with both side panels enabled.
-- `assets/jaka_zu3_meshes/`: the complete seven-link JAKA Zu 3 visual mesh set.
-- `assets/tabletop/` and `assets/objaverse/`: the table, mug, and plate used by the current scene.
+- `jaka_zu3_mujoco.xml`: the six-joint robot, position actuators, collision geometry, blue deformable cloth, and scene includes.
+- `view_jaka_zu3.py`: starts the model in a raised pose, places the mug and plate on the table, and opens the viewer with contact markers enabled.
+- `assets/jaka_zu3_meshes/`: the seven-link JAKA Zu 3 mesh set used for rendering and as collision proxies.
+- `assets/tabletop/` and `assets/objaverse/`: the table, mug, and plate used by the scene.
 - `scripts/fetch_assets.sh`: optional recovery script for recreating the asset directory if a user intentionally removes it; a normal clone does not need to run it.
 
-After cloning, `assets/jaka_zu3_meshes/` contains the full Zu 3 visual link geometry needed by the XML. `scripts/check_model.py` verifies that all six joints, six actuators, and the referenced assets load successfully.
+The rag is a procedural MuJoCo `flexcomp` cloth patch (165 vertices), not a scanned or textured rag model. It falls onto the tabletop and can deform under contact. The base and Links 1–2 have collision proxies enabled; an orange sphere marks the active tool contact pad at `tool0`. Links 3–6 remain visual-only because their full STL collision hulls clip into this table in the tested rag-reaching pose. The base is excluded from table collision because it is mounted through the tabletop. The mug, plate, table, rag, base/shoulder, and tool pad can generate contacts.
 
-The current robot links are visual-only meshes (`contype="0"`, `conaffinity="0"`). There is no gripper yet, and the arm does not collide with the table or objects. The current stage is suitable for viewing and testing joint motion, not for a pick-and-place task or policy training. The original tutorial notebooks demonstrate a different Robotis OMY robot and are not Zu 3 control code.
+To test contact manually, run `python view_jaka_zu3.py`, use the right-panel actuator controls to move the joints slowly, and watch the orange tool pad approach the rag or rigid objects. Contact-point and contact-force visualization is enabled. For a repeatable approach, run `python scripts/demo_rag_contact.py`; it lets the rag settle, moves the pad toward the rag, holds briefly, and retracts. Collision response only handles physical contact; it does not plan a safe path. There is no gripper, grasp constraint, inverse-kinematics interface, or wiping controller yet, so this version is for scene and contact experiments rather than pick-and-place or policy training. The original tutorial notebooks demonstrate a different Robotis OMY robot and are not Zu 3 control code.
 
 ## Upstream assets
 
@@ -44,4 +50,4 @@ The assets in this repository originate from the JAKA ROS 2 description and the 
 
 ## Current validation
 
-Tested with Python 3.10 and MuJoCo 3.1.6 on Ubuntu. The project is a work in progress; joint dynamics and contact geometry have not been calibrated against the physical robot.
+Tested with Python 3.10 and MuJoCo 3.1.6 on Ubuntu. `scripts/check_model.py` verifies the XML and assets load, checks robot collision masks, and simulates the rag settling onto the tabletop. The project is a work in progress; joint dynamics and collision geometry have not been calibrated against the physical robot.

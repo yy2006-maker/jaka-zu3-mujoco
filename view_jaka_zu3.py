@@ -61,6 +61,9 @@ def main() -> None:
         viewer.cam.distance = 2.0
         viewer.cam.azimuth = 135
         viewer.cam.elevation = -20
+        # Make physical contacts visible while testing the tool against the rag.
+        viewer.opt.flags[mujoco.mjtVisFlag.mjVIS_CONTACTPOINT] = True
+        viewer.opt.flags[mujoco.mjtVisFlag.mjVIS_CONTACTFORCE] = True
         viewer.sync()
 
         while viewer.is_running():
