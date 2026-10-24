@@ -1,10 +1,5 @@
 #!/usr/bin/env python3
-"""Open the JAKA Zu 3 MuJoCo model with a centered initial camera.
-
-The manual viewer does not move the robot automatically.  Move the position
-actuators in the right panel; the orange tool pad turns red whenever it has a
-MuJoCo collision with another model.
-"""
+"""Open the JAKA Zu 3 MuJoCo model with a centered initial camera."""
 
 import time
 import os
@@ -57,11 +52,6 @@ def main() -> None:
         data.qpos[qpos_address + 3 : qpos_address + 7] = (1, 0, 0, 0)
 
     mujoco.mj_forward(model, data)
-    pad_id = mujoco.mj_name2id(
-        model, mujoco.mjtObj.mjOBJ_GEOM, "tool_contact_pad"
-    )
-    previous_contact_count = -1
-
     with mujoco.viewer.launch_passive(
         model, data, show_left_ui=True, show_right_ui=True
     ) as viewer:
@@ -70,31 +60,10 @@ def main() -> None:
         viewer.cam.distance = 2.0
         viewer.cam.azimuth = 135
         viewer.cam.elevation = -20
-        # Make physical contacts visible while testing the tool against the rag.
-        viewer.opt.flags[mujoco.mjtVisFlag.mjVIS_CONTACTPOINT] = True
-        viewer.opt.flags[mujoco.mjtVisFlag.mjVIS_CONTACTFORCE] = True
         viewer.sync()
 
         while viewer.is_running():
             mujoco.mj_step(model, data)
-            pad_contact_count = sum(
-                1
-                for index in range(data.ncon)
-                if pad_id in data.contact[index].geom
-            )
-            model.geom_rgba[pad_id] = (
-                (1.0, 0.05, 0.02, 1.0)
-                if pad_contact_count
-                else (1.0, 0.25, 0.08, 1.0)
-            )
-            if pad_contact_count != previous_contact_count:
-                state = "CONTACT" if pad_contact_count else "free"
-                print(
-                    f"tool_contact_pad: {state} "
-                    f"({pad_contact_count} contact point(s))",
-                    flush=True,
-                )
-                previous_contact_count = pad_contact_count
             viewer.sync()
             time.sleep(model.opt.timestep)
 
