@@ -80,12 +80,17 @@ def main() -> None:
             f"flex contacts={rag_contacts}"
         )
 
-    # Confirm the orange tool proxy can physically touch the settled cloth.
+    # Confirm the orange tool proxy can physically touch the settled cloth by
+    # using the same position actuators as the viewer demo.  This is a dynamic
+    # check: it catches target poses that only work when qpos is teleported.
     tool_touch_pose = (-0.648, -0.042, -0.961, -0.699, 0.931, 1.272)
     for index, name in enumerate(JOINTS):
-        joint_id = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_JOINT, name)
-        data.qpos[model.jnt_qposadr[joint_id]] = tool_touch_pose[index]
-    mujoco.mj_forward(model, data)
+        actuator_id = mujoco.mj_name2id(
+            model, mujoco.mjtObj.mjOBJ_ACTUATOR, f"actuator_{name}"
+        )
+        data.ctrl[actuator_id] = tool_touch_pose[index]
+    for _ in range(round(5.0 / model.opt.timestep)):
+        mujoco.mj_step(model, data)
     pad_id = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_GEOM, "tool_contact_pad")
     tool_rag_contacts = sum(
         1 for contact in data.contact
