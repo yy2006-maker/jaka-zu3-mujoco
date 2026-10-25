@@ -1,0 +1,156 @@
+{
+  "source_file": "source_assembly.stl",
+  "original_filename": "装配体2.STL",
+  "sha256": "429be112c2d59e7654cafee41cc1e2e88e466696d6c3bdbbb32cbf0905902385",
+  "source_triangles": 343666,
+  "source_components": 27,
+  "units_assumption": "Source millimetres; generated mesh vertices in metres",
+  "mount_origin_mm": [
+    0.576632,
+    36.66838,
+    1024.0
+  ],
+  "source_to_mount_rotation": [
+    [
+      0.0,
+      1.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      1.0
+    ],
+    [
+      1.0,
+      0.0,
+      0.0
+    ]
+  ],
+  "moving_pivot_mm": [
+    55.5,
+    36.65,
+    1049.0
+  ],
+  "moving_pivot_in_mount_m": [
+    -1.838000000000051e-05,
+    0.025,
+    0.054923368
+  ],
+  "moving_pre_rotation_rad": 0.0,
+  "parts": {
+    "fixed_housing": {
+      "component_ranks": [
+        0,
+        1,
+        12,
+        13,
+        25
+      ],
+      "triangles": 129743,
+      "frame": "Link_6 flange mount frame",
+      "bounds_m": [
+        [
+          -0.03050149080932617,
+          -0.02998382568359375,
+          -2.1556091311936145e-10
+        ],
+        [
+          0.030498520634765627,
+          0.0299837646484375,
+          0.13497225716015626
+        ]
+      ]
+    },
+    "fixed_hardware_a": {
+      "component_ranks": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "triangles": 179649,
+      "frame": "Link_6 flange mount frame",
+      "bounds_m": [
+        [
+          -0.026686164118652343,
+          -0.021,
+          0.02673970558544922
+        ],
+        [
+          0.026683182500000003,
+          0.023,
+          0.08311002876660156
+        ]
+      ]
+    },
+    "fixed_hardware_b": {
+      "component_ranks": [
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24
+      ],
+      "triangles": 32907,
+      "frame": "Link_6 flange mount frame",
+      "bounds_m": [
+        [
+          -0.0280473444241333,
+          -0.01604998779296875,
+          0.02834009506604004
+        ],
+        [
+          0.026583969853515625,
+          -0.00520001220703125,
+          0.08150964119335938
+        ]
+      ]
+    },
+    "moving_jaw": {
+      "component_ranks": [
+        26
+      ],
+      "triangles": 1367,
+      "frame": "joint_7 pivot frame",
+      "bounds_m": [
+        [
+          -0.017448749923706052,
+          -0.041,
+          -0.01744614028930664
+        ],
+        [
+          0.028584130859375,
+          0.004,
+          0.08057826232910156
+        ]
+      ]
+    }
+  },
+  "scope": "Complete user-provided gripper assembly; all 27 shells retained",
+  "simulation_assumptions": {
+    "mount": "60 mm circular face on component 25, source normal +X mapped to Link_6 local +Z; bolt fit unverified",
+    "joint_7_axis": "Source Z motor shaft mapped to Link_6 local -Y so positive joint_7 opens away from the fixed jaw",
+    "joint_7_range_rad": [
+      0.0,
+      0.9
+    ],
+    "joint_7_range_note": "0 is the closed reference pose; increasing opens the jaw; visual preview range, not measured servo travel",
+    "fixed_mass_kg": 0.45,
+    "moving_jaw_mass_kg": 0.08,
+    "inertia": "Uniform AABB estimates, not manufacturer mass/inertia",
+    "collision": "Robot and gripper mesh convex hulls collide with environment using contype 2 and conaffinity 1; internal self-contact pairs excluded; physical geometry is an approximation"
+  }
+}

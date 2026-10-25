@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Open the JAKA Zu 3 MuJoCo model with a centered initial camera."""
+"""Open the JAKA Zu 3 scene with six arm controls and one gripper control."""
 
 import time
 import os
@@ -23,9 +23,10 @@ def main() -> None:
 
     # Hold a raised, tucked pose. Zeroing every joint makes this arm lie across
     # the table, which is why the wrist looked as if it had sunk into the floor.
-    home = (0.0, 0.5, 0.8, 0.0, 0.0, 0.0)
+    # Seventh value holds the gripper in its closed reference pose.
+    home = (0.0, 0.5, 0.8, 0.0, 0.0, 0.0, 0.0)
     for joint_index, joint_name in enumerate(
-        ("joint_1", "joint_2", "joint_3", "joint_4", "joint_5", "joint_6")
+        tuple(f"joint_{index}" for index in range(1, 8))
     ):
         joint = model.joint(joint_name)
         data.qpos[joint.qposadr] = home[joint_index]
@@ -52,6 +53,8 @@ def main() -> None:
         data.qpos[qpos_address + 3 : qpos_address + 7] = (1, 0, 0, 0)
 
     mujoco.mj_forward(model, data)
+    print("Control: actuator_joint_1..6 = arm; actuator_joint_7 = gripper opening/closing.")
+    print("joint_7: 0 = closed reference pose; increase toward 0.9 rad to open the moving jaw.")
     with mujoco.viewer.launch_passive(
         model, data, show_left_ui=True, show_right_ui=True
     ) as viewer:
