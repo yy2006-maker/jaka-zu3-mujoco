@@ -1,6 +1,7 @@
 # Python and MuJoCo runtime files.
 __pycache__/
 *.py[cod]
+.venv*/
 MUJOCO_LOG.TXT
 
 # Finder metadata should never be part of the asset bundle.

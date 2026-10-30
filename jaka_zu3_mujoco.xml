@@ -87,6 +87,10 @@
                     <!-- Preview mass/inertia estimates; hardware values unknown. -->
                     <inertial pos="0.01 0 0.022" mass="0.45"
                               diaginertia="0.00055 0.00075 0.00070"/>
+                    <!-- Approximate grasp centre near the jaw tips; used by
+                         the camera teleoperation IK as the tool centre point. -->
+                    <site name="tcp" pos="0 0 0.115" size="0.006"
+                          rgba="0.1 0.95 0.25 1"/>
                     <geom name="gripper_fixed_housing_visual" type="mesh" mesh="gripper_fixed_housing_mesh"
                           rgba="0.86 0.45 0.08 1" contype="2" conaffinity="1" group="2"/>
                     <geom name="gripper_fixed_hardware_a_visual" type="mesh" mesh="gripper_fixed_hardware_a_mesh"
